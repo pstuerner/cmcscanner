@@ -1,0 +1,22 @@
+version: '3.1'
+
+services:
+  cmcscanner:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    image: cmcscanner:latest
+    container_name: cmcscanner
+    network_mode: "host"
+    env_file:
+      - .env
+
+  mongo:
+    image: mongo:4
+    container_name: mongodb
+    network_mode: "host"
+    env_file:
+      - .env
+    volumes:
+      - ${LOCAL_VOLUME}:/data/db
+      - ./init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh
